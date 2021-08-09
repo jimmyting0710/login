@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!-- 加入thymeleaf-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>form</title>
+
+
+</head>
+
+<body>
+
+	<!--
+		th:action:定義後台控制器路徑，類似<form>標籤的action屬性。
+        th:object:將form內的資料打包一起送出
+        method:要與controller過來的方法一致
+	-->
+
+
+	<h2>查</h2>
+	<form th:action="@{/doLogin}" method="post">
+		<input type="text" name="userid" placeholder="請輸入id" onfocus="this.placeholder=''"
+			onblur="this.placeholder='請輸入id'" />
+
+
+		<input type="text" name="userpw" placeholder="請輸入pw" onfocus="this.placeholder=''"
+			onblur="this.placeholder='請輸入pw'" />
+
+		<tr>
+			<td>
+				<div id><img src="/getCode" alt="驗證碼" name="imgCode" id="my_image" /></div>
+			</td>
+			<td><input type="text" id="code" name="code" /></td>
+			<td><button id="resetValidateNumber">重產</button></td>
+		</tr>
+
+
+
+		<div class="form-group">
+			<label class="col-md-2 col-md-offset-2 control-label">驗證碼</label>
+			<div class="col-md-3">
+				<div class="row_bj" style="width:100%;">
+					<input type="text" class="form-control" id="code" name="code">
+					<img alt="驗證碼" id="Img" onclick="this.src='/getCode?d='+new Date()*1" src="/getCode"
+						style="margin-left:20px;" />
+				</div>
+				<td><button id="ee">重產</button></td>
+
+			</div>
+		</div>
+
+		<input type="submit" />
+	</form>
+
+
+</body>
+
+</html>

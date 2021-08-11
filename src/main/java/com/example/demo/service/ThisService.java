@@ -10,35 +10,19 @@ import com.example.demo.repository.ThisRepository;
 public class ThisService {
 	@Autowired
 	ThisRepository repository;
-	
-	
-	
-	
-	public ThisEntity find(String userid,String userpw) {
+
+	public ThisEntity find(String userid, String userpw) {
 //		System.out.println(userid+" "+userpw);
-		return repository.findUser(userid,userpw);
+		return repository.findUser(userid, userpw);
 	}
 
-//	public ThisEntity update(String userid) {
-//		repository.update(userid);
-//		// TODO Auto-generated method stub
-//		return null ;
-//	}
-
-	
-
-	public void update(ThisEntity entity,String userid,String timestamp) {
+	public void update(ThisEntity entity, String userid, String timestamp) {
 //		ThisEntity entity=new ThisEntity();
 //		System.out.println(userid+" "+timestamp);
 		entity.setUserid(userid);
 		entity.setLastlogindatetime(timestamp);
-		
 		repository.save(entity);
-		
-		
+
 	}
-	
-	
-	
 
 }

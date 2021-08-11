@@ -1,193 +1,199 @@
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>CCBS 2.0 測試個案管理系統</title>
-    <style type="text/css">
-        #loginButton {
-            background-color: blue;
-            color: white;
-            border-radius: 10px;
-            border: 1px solid gray;
-            font-size: 16px;
-            width: 100px;
-            cursor: pointer
-        }
-        #resetValidateNumber {
-            background-color: blue;
-            color: white;
-            border-radius: 2px;
-            border: 1px solid gray;
-            font-size: 12px;
-            width: 50px;
-            cursor: pointer
-        }
-        #errMsg {
-            font-size: 10pt;
-            color: red;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        #content {
-            background-color: blue;
-            border: 1px solid blue;
-            width: 500px;
-            height: 350px;
-            margin: 10% auto;
-        }
-
-        #contentTitle {
-            text-align: center;
-            font-size: 20pt;
-            color: white;
-        }
-
-        #contentBody {
-            background-color: white;
-            width: inherit;
-            height: 250px;
-            margin: 0 auto;
-        }
-
-        #dataTable {
-            line-height: 2;
-            margin: 20px auto;
-            text-align: center;
-            position: relative;
-            top: 50px;
-        }
-
-        #my_image {
-            cursor: pointer;
-        }
-		input[type="text"] ,input[type="password"]{
-			border:1px solid blue;
-		
-		}
-		#msg{
-			color:blue;
-			font-size:10pt;
-		}
-		
-    </style>
-</head>
-<body>
-    <div id="content">
-        <div id="contentTitle"><strong>CCBS 2.0 測試個案管理系統</strong></div>
-        <div id="contentBody">
-            <table id="dataTable">
-           
-                <tr>
-                    <td><label style="color:blue;"> 帳號：</label></td>
-                    <td><input type="text" id="account" name="userid" /></td>
-                </tr>
-                <tr>
-                    <td><label style="color:blue;">密碼：</label></td>
-                    <td><input type="password" id="password" name ="userpw"/></td>
-                </tr>
-                <tr>
-                    <td><div ><img src="/getCode" alt="驗證碼" name="imgCode" id="my_image" /></div> </td>
-                    <td><input type="text" id="code" name="code"/></td>
-                    <td><button type="button" id="resetValidateNumber">重產</button></td>
-                </tr>
-                <tr>
-                    <td colspan="3">
-                        <button type="button" id="loginButton">登入</button>
-                    </td>
-                </tr>
-				   <tr>
-                    <td colspan="3">
-                        <strong id="msg">請使用chrome瀏覽器進行登入</strong>
-                    </td>
-                </tr>
-            
-            </table>
-        </div>
-        <div id="errMsg"></div>	
-    </div>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-
-    <script type="text/javascript">
-
-        $(document).ready(function () {
-            $('#account').keydown(function () {
-                if ($('#account').val().length >= 10) {
-                    $('#errMsg').text('不可超過10個字元');
-                }
-                else {
-                    $('#errMsg').text('');
-                }
-            });
-        });
-
-        $('#loginButton').click(function () {
-          //  $.get("#my_image", function (data) { 
-				console.log(document.cookie.split('=')[1]);
-                if ($('#code').val() == document.cookie.split('=')[1]) {
-                    login();
-                }
-                else {
-                    $('#errMsg').text('圖形驗證碼有誤');
-                    return;
-                }
-            //});
-        });
-
-        $('#resetValidateNumber').click(function () {
-            resetNumber();
-        });
-        
-        $('#my_image').click(function () {
-            resetNumber();
-        });     
-
-        $(document).on('keypress', function (e) {          
-            if (e.which == 13) {
-                //$.get("#my_image", function (data) {
-                    if ($('#code').val() == document.cookie.split('=')[1]) {
-                        login();
-                    }
-                    else {
-                        $('#errMsg').text('圖形驗證碼有誤');
-                        return;
-                    }
-                //});
-            }
-        });
-
-        function resetNumber() {
-            $.get("#my_image", function () {
-                $("#my_image").attr("src", "/getCode");
-            });
-        }
-
-        function login() {
-            $.post("/doLogin", { userid: $("#account").val(), userpw: $("#password").val() ,code:$("#code").val()}, function (data) {               
-                console.log( $("#account").val()+ "  "+$("#password").val()+ "  "+$("#code").val());
-                console.log(data+" "+data.Result);
-                if (data=="errorcode") {
-                    $('#errMsg').text('驗證碼錯誤');
-                     return;
-                } else if(data=="erroruserinfo") {
-                    $('#errMsg').text('帳號或密碼有誤');
-                    return;
-                } else {
-					
-                   window.location.href='http://127.0.0.1:8080/MainMenu' ;
+	<meta name="viewport" content="width=device-width" />
+	<title>CCBS 2.0 測試個案管理系統</title>
 	
-				}
-            });
+	<style type="text/css">
+		#loginButton {
+			background-color: blue;
+			color: white;
+			border-radius: 10px;
+			border: 1px solid gray;
+			font-size: 16px;
+			width: 100px;
+			cursor: pointer
+		}
 
-        }
-    </script>
+		#resetValidateNumber {
+			background-color: blue;
+			color: white;
+			border-radius: 2px;
+			border: 1px solid gray;
+			font-size: 12px;
+			width: 50px;
+			cursor: pointer
+		}
+
+		#errMsg {
+			font-size: 10pt;
+			color: red;
+			text-align: center;
+			font-weight: bold;
+		}
+
+		#content {
+			background-color: blue;
+			border: 1px solid blue;
+			width: 500px;
+			height: 350px;
+			margin: 10% auto;
+		}
+
+		#contentTitle {
+			text-align: center;
+			font-size: 20pt;
+			color: white;
+		}
+
+		#contentBody {
+			background-color: white;
+			width: inherit;
+			height: 250px;
+			margin: 0 auto;
+		}
+
+		#dataTable {
+			line-height: 2;
+			margin: 20px auto;
+			text-align: center;
+			position: relative;
+			top: 50px;
+		}
+
+		#my_image {
+			cursor: pointer;
+		}
+
+		input[type="text"],
+		input[type="password"] {
+			border: 1px solid blue;
+
+		}
+
+		#msg {
+			color: blue;
+			font-size: 10pt;
+		}
+	</style>
+
+</head>
+
+<body>
+	<div id="content">
+		<div id="contentTitle"><strong>CCBS 2.0 測試個案管理系統</strong></div>
+		<div id="contentBody">
+			<table id="dataTable">
+
+				<tr>
+					<td><label style="color:blue;"> 帳號：</label></td>
+					<td><input type="text" id="account" name="userid" /></td>
+				</tr>
+				<tr>
+					<td><label style="color:blue;">密碼：</label></td>
+					<td><input type="password" id="password" name="userpw" /></td>
+				</tr>
+				<tr>
+					<td>
+						<div><img src="/getCode" alt="驗證碼" name="imgCode" id="my_image" /></div>
+					</td>
+					<td><input type="text" id="code" name="code" /></td>
+					<td><button type="button" id="resetValidateNumber">重產</button></td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<button type="button" id="loginButton">登入</button>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<strong id="msg">請使用chrome瀏覽器進行登入</strong>
+					</td>
+				</tr>
+
+			</table>
+		</div>
+		<div id="errMsg"></div>
+	</div>
+	
+	<!--thymeleaf 特別載入法-->
+		<script th:src="@{/jquery-3.6.0.min.js}"></script>
+        <script  th:src="@{/js/bootstrap.min.js}" ></script>
+
+	<script type="text/javascript">
+
+		$(document).ready(function () {
+			$('#account').keydown(function () {
+				if ($('#account').val().length >= 10) {
+					$('#errMsg').text('不可超過10個字元');
+				}
+				else {
+					$('#errMsg').text('');
+				}
+			});
+		});
+
+		$('#loginButton').click(function () {
+			//  $.get("#my_image", function (data) { 
+			console.log(document.cookie.split('=')[1]);
+			if ($('#code').val() == document.cookie.split('=')[1]) {
+				login();
+			}
+			else {
+				$('#errMsg').text('圖形驗證碼有誤');
+				return;
+			}
+			//});
+		});
+
+		$('#resetValidateNumber').click(function () {
+			resetNumber();
+		});
+
+		$('#my_image').click(function () {
+			resetNumber();
+		});
+
+		$(document).on('keypress', function (e) {
+			if (e.which == 13) {
+				//$.get("#my_image", function (data) {
+				if ($('#code').val() == document.cookie.split('=')[1]) {
+					login();
+				}
+				else {
+					$('#errMsg').text('圖形驗證碼有誤');
+					return;
+				}
+				//});
+			}
+		});
+
+		function resetNumber() {
+			$.get("#my_image", function () {
+				$("#my_image").attr("src", "/getCode");
+			});
+		}
+
+		function login() {
+			$.post("/doLogin", {userid: $("#account").val(), userpw: $("#password").val(), code: $("#code").val()}, function (data) {
+				// console.log( $("#account").val()+ "  "+$("#password").val()+ "  "+$("#code").val());
+				//  console.log(data+" "+data.Result);
+				if (data == "errorcode") {
+					$('#errMsg').text('驗證碼錯誤');
+					return;
+				} else if (data == "erroruserinfo") {
+					$('#errMsg').text('帳號或密碼有誤');
+					return;
+				} else {
+
+					window.location.href = 'http://127.0.0.1:8080/MainMenu';
+
+				}
+			});
+
+		}
+	</script>
 </body>
+
 </html>
